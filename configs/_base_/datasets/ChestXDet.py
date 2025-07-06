@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 from albumentations import RandomBrightnessContrast
 from mmdet.datasets import CocoDataset
 from configs._base_.datasets.RandomCropWithScaling import RandomCropWithScaling
