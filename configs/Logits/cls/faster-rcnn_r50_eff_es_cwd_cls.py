@@ -1,7 +1,7 @@
 from mmengine import read_base
 
 from configs._base_.hook.schedule_hook import DistillLossWeightScheduleHook
-from razor.models.losses.sinkd.distkd import DISTLoss
+from razor.models.losses.sinkd.cwd1 import ChannelWiseDivergence
 from mmdet.engine.hooks.get_epoc_student_hook import SetEpochInfoHook
 from mmdet.engine.hooks.schedule__hook import DistillLossWeightScheduleHookV2
 with read_base():
@@ -10,7 +10,7 @@ with read_base():
     from configs._base_.default_runtime import *  # noqa
 
     from configs.faster_distiller.faster_rcnn_r50_fpn import model as teacher  # noqa
-    from configs.faster_distiller.faster_rcnn_r18_fpn import model as student  # noqa
+    from configs.faster_distiller.faster_rcnn_eff_es_fpn import model as student  # noqa
 
 teacher_ckpt = '/home/jz207/workspace/liull/MMDetection/t1_epoch_53_418.pth'  # noqa: E501
 model = dict(
@@ -29,7 +29,9 @@ model = dict(
         ),
         distill_losses=dict(
             loss_cwd=dict(
-                type=DISTLoss,
+                type=ChannelWiseDivergence,
+                tau=3,
+                loss_weight=1.0,
             ),
         ),
         loss_forward_mappings=dict(
